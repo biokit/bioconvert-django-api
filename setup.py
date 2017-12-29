@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 _MAJOR = 0
 _MINOR = 0
-_MICRO = 1
+_MICRO = 2
 version = '%d.%d.%d' % (_MAJOR, _MINOR, _MICRO)
 release = '%d.%d' % (_MAJOR, _MINOR)
 
@@ -18,7 +18,7 @@ metainfo = {
     'url': ['https://github.com/bryan-brancotte/bioconvert-django-api', ],
     'description': 'A REST API of bioconvert using Django REST framework.',
     'platforms': ['Linux', 'Unix', 'MacOsX', 'Windows'],
-    "keywords": ["NGS", "bam2bed", "fastq2fasta", "bam2sam"],
+    "keywords": ["django","app","reusable","REST","NGS", "bam2bed", "fastq2fasta", "bam2sam"],
     'classifiers': [
           'Development Status :: 1 - Planning',
           'Intended Audience :: Developers',
