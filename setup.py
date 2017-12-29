@@ -15,7 +15,7 @@ metainfo = {
     'version': version,
     'license': 'BSD',
     'download_url': ['http://pypi.python.org/pypi/bioconvert-django-api', ],
-    'url': ['http://pypi.python.org/pypi/bioconvert-django-api', ],
+    'url': ['https://github.com/bryan-brancotte/bioconvert-django-api', ],
     'description': 'A REST API of bioconvert using Django REST framework.',
     'platforms': ['Linux', 'Unix', 'MacOsX', 'Windows'],
     "keywords": ["NGS", "bam2bed", "fastq2fasta", "bam2sam"],
