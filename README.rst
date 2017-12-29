@@ -2,7 +2,7 @@
 Bioconvert API
 ================================
 
-A Django app using django-rest-framwork to propose bioconvert convertion through a REST API
+A Django app using `django-rest-framwork`_ to propose bioconvert_ convertion through a REST API
 
 
 Quick start
@@ -32,5 +32,5 @@ Include the bioconvertapi URLconf in your project urls.py and serve the media di
 3.
 Visit http://127.0.0.1:8000/bioconvert-api/fastq/fasta/ to convert from fastq to fasta
 
-
-
+.. _bioconvert: https://github.com/biokit/bioconvert
+.. _django-rest-framwork: http://www.django-rest-framework.org/
