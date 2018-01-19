@@ -15,6 +15,14 @@ from rest_framework.fields import empty
 from bioconvertapi.exposed_computation_drf.wrappers import ExposedComputationWrapper
 
 
+def get_job_info_from_identifier(identifier):
+    return json.loads(
+        default_storage.open(
+            os.path.join(os.path.join('converted', identifier), "job_info.json"),
+        ).read()
+    )
+
+
 class BioconvertWrapper(ExposedComputationWrapper):
     input_file = serializers.FileField(
         required=False,
@@ -27,6 +35,10 @@ class BioconvertWrapper(ExposedComputationWrapper):
         min_length=32,
         max_length=32,
         required=False,
+    )
+    postpone_conversion = serializers.BooleanField(
+        default=False,
+
     )
     output_url = serializers.URLField(read_only=True)
 
@@ -55,9 +67,12 @@ class BioconvertWrapper(ExposedComputationWrapper):
         output_format = data.get("output_format", "").lower()
         identifier = data.get("identifier", get_random_string(length=32))
         job_dir = os.path.join('converted', identifier)
+        print(data["postpone_conversion"])
+        postpone_conversion = data.get("postpone_conversion", False)
 
         # Fetching file if new job, or getting its information
         content = None
+        owner = request.user.pk
         if 'input_file' in data:
             input_filename = data['input_file'].name
             content = data['input_file'].read()
@@ -67,17 +82,16 @@ class BioconvertWrapper(ExposedComputationWrapper):
             content = open(response[0]).read()
         elif 'identifier' in data:
             try:
-                job_info = json.loads(
-                    default_storage.open(
-                        os.path.join(job_dir, "job_info.json"),
-                    ).read()
-                )
+                job_info = get_job_info_from_identifier(identifier)
             except FileNotFoundError:
                 raise NotFound()
             if job_info['owner'] != request.user.pk:
                 # raise PermissionDenied()
                 raise NotFound()
             input_filename = job_info["input_filename"]
+            input_format = job_info["input_format"]
+            output_format = job_info["output_format"]
+            owner = job_info["owner"]
         else:
             raise self.get_validation_error()
 
@@ -85,31 +99,34 @@ class BioconvertWrapper(ExposedComputationWrapper):
         path = os.path.join(job_dir, input_filename)
         input_path = os.path.join(settings.MEDIA_ROOT, path)
         output_path = input_path + "." + output_format
+        output_url = request.build_absolute_uri(os.path.join(settings.MEDIA_URL, path + "." + output_format))
 
         if content:
             # saving fetched file
             default_storage.save(path, ContentFile(content))
 
-            bioconvert_main(args=[
-                input_path,
-                output_path,
-            ])
-
             # save
             job_info = dict(
-                owner=request.user.pk,
+                owner=owner,
                 output_path=output_path,
                 input_filename=input_filename,
                 input_format=input_format,
                 output_format=output_format,
+                output_url=output_url,
             )
             default_storage.save(
                 os.path.join(job_dir, "job_info.json"),
                 ContentFile(json.dumps(job_info)),
             )
+        if not postpone_conversion and not os.path.isfile(output_path) :
+            bioconvert_main(args=[
+                input_path,
+                output_path,
+            ])
         return dict(
-            output_url=request.build_absolute_uri(os.path.join(settings.MEDIA_URL, path + "." + output_format)),
+            output_url=output_url,
             identifier=identifier,
+            postpone_conversion=postpone_conversion,
         )
 
     def evaluate_computation_feasibility(self, request, data, *args, **kwargs):
