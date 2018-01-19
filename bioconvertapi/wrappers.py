@@ -67,7 +67,6 @@ class BioconvertWrapper(ExposedComputationWrapper):
         output_format = data.get("output_format", "").lower()
         identifier = data.get("identifier", get_random_string(length=32))
         job_dir = os.path.join('converted', identifier)
-        print(data["postpone_conversion"])
         postpone_conversion = data.get("postpone_conversion", False)
 
         # Fetching file if new job, or getting its information
