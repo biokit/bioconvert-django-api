@@ -19,9 +19,9 @@ class ExposedComputationView(GenericAPIView):
 
     def post(self, request, *args, **kw):
         serializer = self.get_serializer(data=request.data)
-        print(request.data)
+        # print(request.data)
         if serializer.is_valid():
-            print("b")
+            # print("b")
 
             validated_data = dict(
                 list(serializer.validated_data.items()) +
