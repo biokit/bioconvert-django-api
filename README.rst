@@ -2,6 +2,12 @@
 Bioconvert API
 ================================
 
+.. image:: https://badge.fury.io/py/bioconvert-django-api.svg
+    :target: https://pypi.python.org/pypi/bioconvert-django-api
+
+.. image:: https://secure.travis-ci.org/biokit/bioconvert-django-api.png
+    :target: http://travis-ci.org/biokit/bioconvert-django-api
+
 A Django app using `django-rest-framwork`_ to propose bioconvert_ convertion through a REST API
 
 
