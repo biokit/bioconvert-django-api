@@ -1,0 +1,15 @@
+language: python
+python:
+- '3.5'
+- '3.6'
+script:
+- touch /tmp/foo
+deploy:
+  provider: pypi
+  user: bbrancot
+  password:
+    secure: wz1uIA+JsbAH9obCRIYi0i83Gvbz+dN8a5VeYCD85HyRYNff6kNV+KI8gmQ8O5tg0T4aic+s/pW3MocQHrIpyAw546CzNe/Z+0nVO/jtJk02giewqO3OSxsVCzcHb/zuFwa4qRiRDox5+NY1Jvgfj8nDK92ECOHHKIYmB4ZqCeVYlnlg1OzoM89plaRWRekLzpkXIdfH4HPNP40N1N6DOj+v5A7YuRWxcVFfS9rBn3VYOij4WUKGOp9L3pMDH3TbZqJgb7TibkJMrX20/iUf+t1FULr5WvRR65BYnkl2yYcrxiM/HMHIiBnKTaJtoHtBEKSsT7zxjPtbQODX9f2w+VX0zgETBbNzdV1PkTSovW3XViLK9fnOIV8u7yQjR5AMZ4WVAhmFbVxPxyZ7leUtw/gXiX006+HOzPLjOA6s3sAQaXkjMrSFmMQ7XoC1Vls0vMNGhYwH6CHY4Ju4OR061ED2LIFL5y5hxHK9YgPsCbr1v3v02WqDe0g5t5jwiIrpgvDlHuaYDIW1D9h2GsIhSyn25yAi1TGE3DlySSlNtQu9XTprt4MaXd5glmx1FtFVqQTQD0k7/MF4KQgcSmyXiLmNsdtwvSDRjpp36u8sUDxhmY71SRgrDNxdrpEQNg9oGQFzaVhXNx0InPUQOz0D/FJ3q5wpuhH5GQglOQUFjNs=
+  on:
+    tags: true
+    python: 3.6
+    branch: master
